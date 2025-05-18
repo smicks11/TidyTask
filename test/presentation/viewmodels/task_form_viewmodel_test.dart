@@ -71,6 +71,7 @@ void main() {
       expect(task!.title, equals('Test Task'));
       expect(task.priority, equals(TaskPriority.medium));
     });
+    //
 
     test('initialization with existing task should populate fields', () {
       final existingTask = Task(
