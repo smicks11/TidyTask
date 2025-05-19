@@ -57,7 +57,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
                 const SizedBox(height: 32),
                 ElevatedButton(
-                  onPressed: _completeOnboarding,
+                  onPressed: _onSubmit,
                   child: const Text('Get Started'),
                 ),
               ],
@@ -68,22 +68,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  Future<void> _completeOnboarding() async {
-    if (!_formKey.currentState!.validate()) return;
-
-    final preferencesService = getIt<PreferencesService>();
-    await preferencesService.setUserName(_nameController.text);
-    if (_emailController.text.isNotEmpty) {
-      await preferencesService.setUserEmail(_emailController.text);
+  void _onSubmit() async {
+    if (_formKey.currentState!.validate()) {
+      final prefsService = getIt<PreferencesService>();
+      await prefsService.setUserName(_nameController.text);
+      await prefsService.setUserEmail(_emailController.text);
+      
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const HomeScreen()),
+        );
+      }
     }
-    await preferencesService.setOnboardingCompleted(true);
-    await preferencesService.setNotificationsEnabled(true);
-
-    if (!mounted) return;
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (_) => const HomeScreen()),
-    );
   }
 
   @override

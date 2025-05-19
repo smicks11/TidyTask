@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tidytask/core/services/export_service.dart';
+import 'package:tidytask/core/services/preferences_service.dart';
 import 'package:tidytask/core/themes/theme_service.dart';
 import 'package:tidytask/domain/entities/task.dart';
 import '../../core/di/service_locator.dart';
@@ -17,7 +18,7 @@ class HomeScreen extends StatelessWidget {
       create: (_) => getIt<TaskViewModel>()..loadTasks(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('TidyTask'),
+          title: Text('Hi, ${getIt<PreferencesService>().userName}'),
           actions: [
             IconButton(
               icon: const Icon(Icons.dark_mode),
